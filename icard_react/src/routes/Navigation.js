@@ -1,12 +1,28 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Link} from "react-router-dom"
+import { map } from "lodash"
+import  routes from "./routes"
+
+console.log(routes);
 
 export function Navigation() {
   return (
     <Router>
-        <Route>
-            <h2>Navigation...</h2>
-        </Route>
+      {
+        map(routes, (route, index) =>(
+          <Route
+            key = {index}
+            path = {route.path}
+            exact = {route.exact}
+            render = {(props) =>(
+              <route.layout>
+                <route.component {...props} />
+              </route.layout>
+            )}
+          />
+        ))
+      }
+        
     </Router>
   )
 }
