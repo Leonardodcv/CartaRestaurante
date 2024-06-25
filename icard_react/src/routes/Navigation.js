@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Route, Link} from "react-router-dom"
+import {BrowserRouter, Route, Routes} from "react-router-dom"
 import { map } from "lodash"
 import  routes from "./routes"
 
@@ -7,22 +7,21 @@ console.log(routes);
 
 export function Navigation() {
   return (
-    <Router>
-      {
-        map(routes, (route, index) =>(
+    <BrowserRouter>
+      <Routes>
+        {map(routes, (route, index) =>(
           <Route
             key = {index}
             path = {route.path}
-            exact = {route.exact}
-            render = {(props) =>(
+            element = {
               <route.layout>
-                <route.component {...props} />
+                <route.component />
               </route.layout>
-            )}
+            }
           />
-        ))
-      }
-        
-    </Router>
+        ))}
+      
+      </Routes>
+    </BrowserRouter>
   )
 }
