@@ -1,10 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { Button, Form } from "semantic-ui-react"
+import "./LoginForm.scss"
 
 export  function LoginForm() {
   return (
-    <div>
-      <h1>Login Form</h1>
-    </div>
+    <Form className='login-form-admin'>
+        <Form.Input name="email" placeholder="Correo electronico" />
+        <Form.Input name="password" type='password' placeholder="Contrasena" />
+        <Button type='submit' content="Iniciar sesion" primary fluid/>
+    </Form>
   )
 }
 
