@@ -3,8 +3,9 @@ import React from 'react';
 import { Button, Form } from "semantic-ui-react"
 import {useFormik} from "formik";
 import * as Yup from "yup";
-
+import {toast} from "react-toastify"
 import { loginApi } from '../../../api/user';
+import { useAuth } from '../../../hooks';
 import "./LoginForm.scss"
 
 export  function LoginForm() {
@@ -14,10 +15,12 @@ export  function LoginForm() {
     onSubmit: async (formValue) => {
       try {
         const response = await loginApi(formValue);
-        console.log(response);
+        const { access } = response
+        console.log(access);
       } catch (error) {
         console.log("ERROR:");
         console.log(error)
+        toast.error(error.message)
       }
     }
   });
