@@ -9,6 +9,8 @@ import { useAuth } from '../../../hooks';
 import "./LoginForm.scss"
 
 export  function LoginForm() {
+  console.log(useAuth());
+  const { login }= useAuth();
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
@@ -16,7 +18,7 @@ export  function LoginForm() {
       try {
         const response = await loginApi(formValue);
         const { access } = response
-        console.log(access);
+      login(access);
       } catch (error) {
         console.log("ERROR:");
         console.log(error)
