@@ -1,5 +1,5 @@
 import React, {useState, useEffect, createContext} from "react";
-import { setToken } from "../api/token";
+import { setToken, getToken, removeToken } from "../api/token";
 import { useUser } from "../hooks";
 
 export const AuthContext = createContext({
@@ -12,6 +12,18 @@ export const AuthContext = createContext({
     const {children} = props;
     const [auth, setAuth]= useState(undefined);
     const {getMe} = useUser();
+    
+    useEffect(()=>{
+        ( async () =>{
+            const token=getToken();
+            if(token){
+                const me = await getMe(token);
+                setAuth({token, me})
+            } else{
+                setAuth(null)
+            }
+        })();
+    },[])
 
     const login = async (token) => {
         setToken(token);
@@ -19,12 +31,25 @@ export const AuthContext = createContext({
        setAuth({token, me});
     }
 
+    const logout = ()=>{
+        console.log("entro a borrar el token");
+        if (auth){
+            console.log("entro al if");
+            removeToken();
+            setAuth(null);
+            console.log("Fin de if");
+        }else{
+            console.log("entro al else");
+        }
+    };
+
     const valueContext = {
         auth,
         login,
-        logout: () => console.log("Cerrando sesion"),
+        logout,
     }
 
+    if(auth === undefined) return null;
     return(
         <AuthContext.Provider value={valueContext} >
             {children}
