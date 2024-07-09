@@ -1,7 +1,7 @@
 import { TOKEN } from "../utils/constans";
 
 export function setToken(token) {
-    localStorage.setItem("TOKEN", token)
+    localStorage.setItem(TOKEN, token)
 }
 
 export function getToken(){
@@ -9,7 +9,7 @@ export function getToken(){
 }
 
 export function removeToken(){
-    console.log("TOKEN antes de borrar:",TOKEN);
+    console.log("TOKEN antes de borrar:",getToken());
     localStorage.removeItem(TOKEN)
-    console.log("TOKEN despues de borrar:",TOKEN);
+    console.log("TOKEN despues de borrar:",getToken());
 }
