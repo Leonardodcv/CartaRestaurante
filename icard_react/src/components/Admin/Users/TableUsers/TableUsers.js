@@ -28,9 +28,13 @@ export function TableUsers(props) {
                                 <Table.Cell>{user.email}</Table.Cell>
                                 <Table.Cell>{user.first_name}</Table.Cell>
                                 <Table.Cell>{user.last_name}</Table.Cell>
-                                <Table.Cell>0  - Active</Table.Cell>
-                                <Table.Cell>0  - Staff</Table.Cell>
-                                <Table.Cell>0  - Actions</Table.Cell>
+                                <Table.Cell className='status'>
+                                    {user.is_active ? <Icon name='check'/> : <Icon name='close'/>}
+                                </Table.Cell>
+                                <Table.Cell className='status'>
+                                    {user.is_staff ? <Icon name='check'/> : <Icon name='close'/>}
+                                </Table.Cell>
+                                <Actions user={user}/>
                                 
                             </Table.Row>
                             
@@ -39,4 +43,18 @@ export function TableUsers(props) {
             </Table>
         </div>
     );
+}
+
+function Actions(props){
+    const {user} = props
+    return(
+        <Table.Cell textAlign="center">
+            <Button icon onClick={()=>console.log(`Editar usuario ${user.email}`)}>
+                <Icon name="pencil"/>
+            </Button>
+            <Button icon negative onClick={()=>console.log(`Eliminar usuario ${user.email}`)}>
+                <Icon name="close"/>
+            </Button>
+        </Table.Cell>
+    )
 }

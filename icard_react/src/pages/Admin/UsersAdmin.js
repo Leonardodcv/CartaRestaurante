@@ -5,13 +5,13 @@ import { useUser } from '../../hooks';
 
 export  function UsersAdmin() {
   const {loading, users, getUsers} = useUser();
-  console.log(users);
+  //console.log(users);
 
   useEffect(()=>{getUsers()},[])
 
   return (
     <>
-      <HeaderPage title="Usuarios" />
+      <HeaderPage title="Usuarios" btnTitle="Nuevo Usuario"/>
       { loading ? (
         <Loader active inline="centered">
           Cargando...
