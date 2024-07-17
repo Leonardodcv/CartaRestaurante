@@ -7,4 +7,4 @@ from categorias.api.serializers import CategorySerializer
 class CategoryApiViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CategorySerializer
-    queryset = Category.ocjects.all()
+    queryset = Category.objects.all()
