@@ -1,3 +1,4 @@
+
 import { BASE_API } from "../utils/constans"; 
 
 export async function getCategoriesApi(){
@@ -5,7 +6,7 @@ export async function getCategoriesApi(){
         const url = `${BASE_API}/api/categories`;
         const response = await fetch(url);
         const result = await response.json();
-        return result
+        return result;
     } catch (error) {
         throw error;
     }

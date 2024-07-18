@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useCallback } from "react";
 import { getCategoriesApi } from "../api/category";
 
 export function useCategory() {
@@ -6,22 +7,23 @@ export function useCategory() {
     const [error, setError] = useState(false);
     const [categories, setCategories] = useState(null);
 
-    const getCategories = async () => {
+    const getCategories = useCallback(async () => {
         try {
             setLoading(true);
             const response = await getCategoriesApi();
-            setLoading(false);
             setCategories(response);
         } catch (error) {
-            setLoading(false);
             setError(error);
+        } finally {
+            setLoading(false);
         }
-    };
-    
+    }, []);
+
     return {
         loading,
         error,
-        categories,
+        categories, 
         getCategories,
     };
 }
+//lo cambie para que no de error
