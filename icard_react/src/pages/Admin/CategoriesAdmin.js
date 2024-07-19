@@ -9,18 +9,20 @@ export function CategoriesAdmin() {
   const [ showModal, setShowModal] = useState(false)
   const [ titleModel, setTitleModal] = useState(null)
   const [ contentModal, setContentModal ] = useState(null)
+  const [ refetch, setRefetch] = useState(false)
   const { loading, categories, getCategories } = useCategory();
-  console.log(categories);
+  //console.log(categories);
 
   useEffect(() => {
       getCategories();
-  }, [getCategories]);
+  }, [refetch]);
 
-  const openCloseModal = () => setShowModal(prev => !prev)
+  const openCloseModal = () => setShowModal(prev => !prev);
+  const onRefetch = () => setRefetch((prev) => !prev)
 
   const addCategory = () => {
     setTitleModal("Nueva categoria");
-    setContentModal(<AddEditCategoryForm/>)
+    setContentModal(<AddEditCategoryForm onClose={openCloseModal} onRefetch={onRefetch}/>)
     openCloseModal()
   }
 
