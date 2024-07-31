@@ -23,6 +23,7 @@ from drf_yasg import openapi
 
 from users.api.router import router_user
 from categorias.api.router import router_category
+from products.api.router import router_product
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -45,7 +46,8 @@ urlpatterns = [
 
     path("api/", include('users.api.router')),
     path("api/", include(router_user.urls)),
-    path("api/", include(router_category.urls)),    
+    path("api/", include(router_category.urls)),  
+    path("api/", include(router_product.urls))  
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
