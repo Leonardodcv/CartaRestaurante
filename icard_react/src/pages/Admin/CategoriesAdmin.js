@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Loader } from 'semantic-ui-react';
 import { HeaderPage, TableCategoryAdmin, AddEditCategoryForm} from '../../components/Admin';
