@@ -1,14 +1,18 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { Form, Image, Button, Dropdown, Checkbox, Search, Item } from 'semantic-ui-react';
-import { useCategory } from '../../../../hooks';
 import { useDropzone } from 'react-dropzone';
-import "./AddEditProductForm.scss"
 import { map } from 'lodash';
+import { useFormik } from 'formik';
+import * as Yup from "yup";
+import { useCategory, useProduct } from '../../../../hooks';
+import "./AddEditProductForm.scss"
 
-export function AddEditProductForm() {
+export function AddEditProductForm(props) {
+    const {onClose, onRefetch} = props;
   const [ categoriesFormat, setCategoriesFormat ]= useState([])
   const [ previewImage, setPreviewImage ] = useState(null);
   const { categories, getCategories } = useCategory();
+  const { addProduct } = useProduct();
 
   useEffect(() => {
     getCategories();
@@ -18,8 +22,21 @@ export function AddEditProductForm() {
     setCategoriesFormat(formatDropDownData(categories));
   }, [categories])
 
-  const onDrop = useCallback((acceptedFile) => {
+  const formik = useFormik({
+    initialValues: initialValues(),
+    validationSchema: Yup.object(newSchema()),
+    validationOnChange:  false,
+    onSubmit: async (formValue) => {
+        await addProduct(formValue);
+        onRefetch();
+
+        onClose();
+    }
+  });
+
+  const onDrop = useCallback(async (acceptedFile) => {
     const file= acceptedFile[0];
+    await formik.setFieldValue("image", file);
     setPreviewImage(URL.createObjectURL(file));
   })
 
@@ -32,15 +49,47 @@ export function AddEditProductForm() {
 
   return (
     <div>
-      <Form className='add-edit-product-form'>
-        <Form.Input name="title" placeholder="Nombre del producto" />
-        <Form.Input type='number' name="price" placeholder="Precio" />
-        <Dropdown placeholder='Categoria' fluid selection search options={categoriesFormat}/>
+      <Form className='add-edit-product-form' onSubmit={formik.handleSubmit}>
+        <Form.Input 
+            name="title" 
+            placeholder="Nombre del producto" 
+            value= {formik.values.title}
+            onChange={formik.handleChange}
+            error={formik.errors.title}
+        />
+
+        <Form.Input 
+            type='number' 
+            name="prices" 
+            placeholder="Precio"
+            value= {formik.values.prices}
+            onChange={formik.handleChange}
+            error={formik.errors.prices}
+        />
+
+        <Dropdown 
+            placeholder='Categoria' 
+            fluid 
+            selection 
+            search 
+            options={categoriesFormat}
+            value={formik.values.category}
+            error={formik.errors.category}
+            onChange={(_, data) => formik.setFieldValue("category", data.value)}
+        />
+
         <div className='add-edit-product-form__active'>
-            <Checkbox toggle />
+            <Checkbox 
+                toggle 
+                checked={formik.values.active}
+                onChange={(_, data) => formik.setFieldValue("active", data.checked)}
+            />
             Producto activo
         </div>
-        <Button type="button" fluid {...getRootProps()}>Subir imagen</Button>
+
+        <Button type="button" fluid {...getRootProps()} color = {formik.errors.image && "red"}>
+            {previewImage ? "Cambiar Imagen" : "Subir imagen"}
+        </Button>
         <input {...getInputProps()} />
         <Image src={previewImage}/>
 
@@ -56,4 +105,24 @@ function formatDropDownData(data){
         text: item.title,
         value: item.id,
     }));
+}
+
+function initialValues(){
+    return {
+        title: "",
+        prices:"",
+        category: "",
+        active: false,
+        image: "",
+    };
+}
+
+function newSchema(){
+    return {
+        title: Yup.string().required(true),
+        prices: Yup.number().required(true),
+        category: Yup.number().required(true),
+        active: Yup.boolean().required(true),
+        image: Yup.string().required(true),
+    }
 }

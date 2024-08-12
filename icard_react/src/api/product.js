@@ -1,3 +1,4 @@
+import { method } from "lodash";
 import { BASE_API } from "../utils/constans";
 
 export async function getProductsApi(){
@@ -9,5 +10,28 @@ export async function getProductsApi(){
     }catch(error){
         throw error;
         return null;
+    }
+}
+
+export async function addProductApi(data, token){
+    try {
+        const formData = new FormData();
+        formData.append("title", data.title);
+        formData.append("prices", data.prices);
+        formData.append("category", data.category);
+        formData.append("active", data.active);
+        formData.append("image", data.image);
+        const url = `${BASE_API}/api/products/`;
+        const params = {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body:formData,
+        }
+        const response = await fetch(url, params);
+        const result = await response.json();
+    } catch (error) {
+        throw error;
     }
 }
