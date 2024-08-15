@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useAuth } from "./useAuth";
-import { getProductsApi, addProductApi, updateProductApi } from "../api/product";
+import { getProductsApi, addProductApi, updateProductApi, deleteProductApi } from "../api/product";
 
 export function useProduct(){
     const [loading, setLoading] = useState(true);
@@ -45,6 +45,17 @@ export function useProduct(){
         }
     }
 
+    const deleteProduct = async (id) => {
+        try {
+            setLoading(true);
+            await deleteProductApi(id, auth.token);
+        } catch (error) {
+            setError(error);
+        }finally{
+            setLoading(false);
+        }
+    }
+
     return {
         loading,
         error,
@@ -52,5 +63,6 @@ export function useProduct(){
         getProducts,
         addProduct,
         updateProduct,
+        deleteProduct,
     };
 }    

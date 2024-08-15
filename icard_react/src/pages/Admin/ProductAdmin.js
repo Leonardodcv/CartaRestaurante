@@ -10,7 +10,7 @@ export  function ProductAdmin() {
     const [titleModal, setTitleModal] =useState(false);
     const [contentModel, setContentModel] = useState(false);
     const [refetch, setRefetch] = useState(false);
-    const { loading, products, getProducts } = useProduct();
+    const { loading, products, getProducts, deleteProduct } = useProduct();
   
 
   useEffect(() => {getProducts()}, [refetch])
@@ -29,6 +29,14 @@ export  function ProductAdmin() {
     openCloseModal();
   };
 
+  const onDeleteProduct = async (data) => {
+    const result = window.confirm(`Eliminar producto ${data.title}?`);
+    if(result){
+      await deleteProduct(data.id)
+      onRefetch()
+    }
+  };
+
   return (
     <>
         <HeaderPage title="Productos" btnTitle= "Nuevo producto" btnClick={addProduct}/>
@@ -39,7 +47,7 @@ export  function ProductAdmin() {
             Cargando...
           </Loader>
         ) : (
-          <TableProductAdmin products={products} updateProduct={updateProduct}/>
+          <TableProductAdmin products={products} updateProduct={updateProduct} deleteProduct={onDeleteProduct}/>
         )
       }
       <ModalBasic 
