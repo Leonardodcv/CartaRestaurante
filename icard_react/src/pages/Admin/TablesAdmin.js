@@ -1,22 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import { HeaderPage } from "../../components/Admin";
+import React, { useEffect } from 'react';
+import { Loader } from 'semantic-ui-react';
+import { HeaderPage. TableTablesAdmin } from "../../components/Admin";
 import { useTable } from '../../hooks';
 
 export function TablesAdmin() {
-    const [showModal, setShowModal] = useState(false);
-    const [titleModal, setTitleModal] =useState(false);
-    const [contentModel, setContentModel] = useState(false);
-    const [refetch, setRefetch] = useState(false);
-    const {loading, tables, getTables} =useTable();
-    
-    useEffect(() => getTables(), []);
-    
+    const { loading, error, tables, getTables } = useTable();
 
-    console.log("TablesAdmin rendered");
+    useEffect(() => {
+        getTables();
+    }, []); // Asegúrate de que useEffect solo se ejecute una vez al montar
+    console.log(tables);
 
-  return (
-    <>
-      <HeaderPage title="Mesas" btnTitle="Crear nueva mesa" />
-    </>
-  )
+    return (
+        <>
+            <HeaderPage title="Mesas" btnTitle="Crear nueva mesa" />
+
+            {loading ? (
+                <Loader active inline="centered">
+                    Cargando...
+                </Loader>
+            ) : (
+                <h2>Listado de mesas del restaurante</h2>
+            )}
+        </>
+    );
 }

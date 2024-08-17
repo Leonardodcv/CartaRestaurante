@@ -1,4 +1,3 @@
-import { method } from "lodash";
 import { BASE_API } from "../utils/constans";
 
 export async function getProductsApi(){

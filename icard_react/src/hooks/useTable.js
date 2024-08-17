@@ -6,23 +6,20 @@ export function useTable(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [tables, setTables] = useState(null);
-    const {auth} = useAuth();
+    const { auth } = useAuth();
 
-    const getTables = async () => {
+    const getTables = useCallback(async () => {
         try {
             setLoading(true);
             const response = await getTablesApi(auth.token);
-            setLoading(false);
             setTables(response);
         } catch (error) {
-            setLoading(false);
             setError(error);
         } finally {
             setLoading(false);
         }
-    }; // Añadido tables como dependencia
-    
-    
+    }, [auth.token]);
+
     return {
         loading,
         error,
@@ -30,5 +27,3 @@ export function useTable(){
         getTables,
     };
 }
-
-
