@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Loader } from 'semantic-ui-react';
 import { ModalBasic} from "../../components/Common";
-import { HeaderPage, TableProductAdmin, AddEditProductForm } from "../../components/Admin"
+import { HeaderPage, AddEditProductForm, TableProductAdmin } from "../../components/Admin"
 import { useProduct } from '../../hooks';
 
 

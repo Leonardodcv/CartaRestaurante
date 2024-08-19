@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Loader } from 'semantic-ui-react';
-import { HeaderPage. TableTablesAdmin } from "../../components/Admin";
+import { HeaderPage, TableTablesAdmin } from "../../components/Admin";
 import { useTable } from '../../hooks';
 
 export function TablesAdmin() {
+    const [showmodal, setShowModal] = useState(false);
+    
     const { loading, error, tables, getTables } = useTable();
 
     useEffect(() => {
@@ -20,8 +22,8 @@ export function TablesAdmin() {
                     Cargando...
                 </Loader>
             ) : (
-                <h2>Listado de mesas del restaurante</h2>
+                <TableTablesAdmin tables={tables} />
             )}
         </>
-    );
+    ); 
 }
