@@ -21,8 +21,11 @@
         height: 200px;
         width: 200px;
 
-        .table-admin svg.pending path {
-            fill: #0094e3;
+        &.busy{
+            fill: #bb7900;
+        }
+        &.pending{
+            fill: #0094e3 !important;
           }
           
     }
