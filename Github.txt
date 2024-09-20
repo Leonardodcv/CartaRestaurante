@@ -7,3 +7,4 @@ git remote add origin https://github.com/Leonardodcv/CartaRestaurante.git
 git push -u origin main
 
 D:\ADjango\CartaRestaurante\icard_django>.\envs\icard\Scripts\Activate
+(icard) D:\ADjango\CartaRestaurante\icard_django\icard>python manage.py runserver
